@@ -83,7 +83,6 @@ function start(out_time: number, allow_server_type: string[]) {
  * 获取最小的负载入口
  */
 function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): void | Server_info {
-    let server_info: Server_info = null;
     //服务器列表，必须存在
     if (!SERVER_MAP_MAP[server_type]) return null;
     /**
@@ -98,11 +97,9 @@ function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYP
         default:
             {
                 const server_infos: Server_info[] = Object.values(SERVER_MAP_MAP[server_type]);
-                Object.assign(server_info, server_infos[0]);
+                return server_infos[0];
             }
     }
-
-    return server_info;
 }
 
 
