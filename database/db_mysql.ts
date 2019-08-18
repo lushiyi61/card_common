@@ -10,7 +10,10 @@ const pools = {};   // 连接池
 
 //连接池索引
 enum DB_AREA {
-    ACCOUNT_DB, GAME_DB, MATCH_DB
+    ACCOUNT_DB,
+    USER_DB,
+    GAME_DB,
+    MATCH_DB
 }
 
 
