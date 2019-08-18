@@ -9,7 +9,7 @@ function http_return(res, ret) {
     res.send(str);
 }
 
-function http_get(host: string, port: number, path: string, data: Object): any {
+function http_get(host: string, port: number, path: string, data: Object) {
     const opt = {
         host,
         port,
@@ -22,9 +22,9 @@ function http_get(host: string, port: number, path: string, data: Object): any {
     };
     const req = http.request(opt, function (res) {
         res.setEncoding("utf-8");
-        res.on("data", function (chunk) {
-            console.log(chunk)
-        });
+        // res.on("data", function (chunk) {
+        //     console.log(chunk)
+        // });
     });
 
     req.on("error", function (err) {

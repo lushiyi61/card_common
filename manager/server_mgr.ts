@@ -104,4 +104,4 @@ function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYP
 
 
 
-export { start as server_mgr_start, create_server_info, update_server_info, get_server_info, get_min_load_entry, LOAD_TYPE }
+export { start as server_mgr_start, create_server_info, get_server_info, get_min_load_entry, LOAD_TYPE }
