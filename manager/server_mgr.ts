@@ -32,29 +32,12 @@ function delete_die_server(out_time: number) {
 }
 
 function create_server_info(server_info: Server_info) {
-    let { server_id, server_type } = server_info;
-    if (ALLOW_SERVER_TYPE.indexOf(server_info.server_type) == -1) {
+    const { ws_ip, ws_port, http_ip, http_port, server_id, server_type } = server_info; if (ALLOW_SERVER_TYPE.indexOf(server_info.server_type) == -1) {
         logger.warn("Not allow the server_type.", JSON.stringify(server_info));
     }
     //如果有必须 初始化服务器列表
     if (!SERVER_MAP_MAP[server_type]) SERVER_MAP_MAP[server_type] = new Map<string, Server_info>();
     const server_map_info: Map<string, Server_info> = SERVER_MAP_MAP[server_type];
-    server_info.tick_time = Date.now();
-    server_map_info[server_id] = server_info;
-
-    logger.info("type:%s id:%s load:%d mem:%s",
-        server_info.server_type, server_info.server_id, server_info.load, server_info.memory);
-}
-
-/**
- * 检测比赛服务器
- */
-function update_server_info(server_info: Server_info) {
-    let { ws_ip, ws_port, http_ip, http_port, server_id, server_type } = server_info;
-    //服务器列表，必须存在
-    if (!SERVER_MAP_MAP[server_type]) return;
-    const server_map_info = SERVER_MAP_MAP[server_type];
-
     if (server_map_info[server_id]) {
         const old_server_info = server_map_info[server_id];
         if (old_server_info.ws_ip != ws_ip ||
@@ -62,12 +45,12 @@ function update_server_info(server_info: Server_info) {
             old_server_info.http_ip != http_ip ||
             old_server_info.http_port != http_port
         ) {
-            logger.info(server_info);
+            logger.info(server_info); // 服务有更新
         }
     }
-
     server_info.tick_time = Date.now();
-    Object.assign(server_map_info[server_id], server_info);  // 更新数据
+    server_map_info[server_id] = server_info;
+
     logger.info("type:%s id:%s load:%d mem:%s",
         server_info.server_type, server_info.server_id, server_info.load, server_info.memory);
 }

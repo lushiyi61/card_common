@@ -5,7 +5,7 @@ const logger = log4js.getLogger(basename(__filename));
 import Express = require("express");
 import { Server_info } from "./api_find";
 import { http_return, http_get } from "./http_client"
-import { create_server_info, update_server_info } from "../manager/server_mgr";
+import { create_server_info } from "../manager/server_mgr";
 import bodyParser = require('body-parser')
 const app = Express();
 app.use(bodyParser.json());
@@ -29,15 +29,10 @@ function start(http_ip: string, http_port: number) {
 
 function report(server_info: Server_info, find_ip: string, find_port: number, find_tick_time: number) {
     Object.assign(SERVER_INFO, server_info);
-    create(find_ip, find_port);
-    setTimeout(update, 2000, find_tick_time);
+    create(find_ip, find_port, find_tick_time);
 }
 
-function create(find_ip: string, find_port: number) {
-    http_get(find_ip, find_port, "/create", SERVER_INFO);
-}
-
-function update(find_ip: string, find_port: number, find_tick_time: number) {
+function create(find_ip: string, find_port: number, find_tick_time: number) {
     const now = Date.now();
     if (now > SERVER_INFO.tick_time + find_tick_time) {
         SERVER_INFO.tick_time = now;
@@ -48,21 +43,15 @@ function update(find_ip: string, find_port: number, find_tick_time: number) {
             heapUsed: mem_format(mem.heapUsed),
             rss: mem_format(mem.rss)
         })
-        // logger.debug("load:%s memory:%s", gameServerInfo.load, gameServerInfo.memory);
-        http_get(find_ip, find_port, "/update", SERVER_INFO);
+        logger.debug("load:%s memory:%s", SERVER_INFO.load, SERVER_INFO.memory);
+        http_get(find_ip, find_port, "/create", SERVER_INFO);
     }
-    setTimeout(update, 2000, find_tick_time);
+    setTimeout(create, 2000, find_ip, find_port, find_tick_time);
 }
 
 app.get("/create", (req, res) => {
     const server_info: Server_info = req.body;
     create_server_info(server_info);
-    http_return(res, {});
-})
-
-app.get("/update", (req, res) => {
-    const server_info: Server_info = req.body;
-    update_server_info(server_info);
     http_return(res, {});
 })
 
