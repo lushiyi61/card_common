@@ -3,11 +3,11 @@ import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import { gen_key, secret, rc4encryption } from "../utils/dhrc4";
-import crypto = require('crypto')
-// const user_mgr_base = require('../manager/user_mgr_base');
-// const database_mgr_base = require('../manager/database_mgr_base');
+import crypto = require("crypto")
+// const user_mgr_base = require("../manager/user_mgr_base");
+// const database_mgr_base = require("../manager/database_mgr_base");
 const b64_reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/
-const white_cmd_list = ['challenge', 'auth'];
+const white_cmd_list = ["challenge", "auth"];
 
 /**
  * 注册消息.
@@ -17,24 +17,24 @@ function handler(socket) {
     const keys = gen_key();
     socket.challenge = {};
     socket.challenge.private_key = keys.private_key;
-    socket.emit('key', { public_key: keys.public_key });
+    socket.emit("key", { public_key: keys.public_key });
 
     //握手认证
-    socket.on('challenge', data => {
+    socket.on("challenge", data => {
         if (!b64_reg.test(data.key)) {
-            logger.error('challenge:B64 failed.')
+            logger.error("challenge:B64 failed.")
             socket.disconnect(true);
             return;
         }
         socket.challenge.secret = secret(socket.challenge.private_key, data.key)
-        const rd_str = crypto.randomBytes(16).toString('base64');
+        const rd_str = crypto.randomBytes(16).toString("base64");
         socket.challenge.rd_str = rd_str;
         const cy_str = rc4encryption(rd_str, socket.challenge.secret)
-        socket.emit('challenge', { cy_str: cy_str });
+        socket.emit("challenge", { cy_str: cy_str });
     });
 
     //认证
-    socket.on('auth', async (data) => {
+    socket.on("auth", async (data) => {
         const rd_text = data.rd_text;
         const token = data.token;
 
@@ -55,16 +55,16 @@ function handler(socket) {
 
         //标记socket已经认证
         // user_mgr_base.bind_socket(user_id, socket);
-        socket.emit('auth_finish');
+        socket.emit("auth_finish");
     });
 
     //心跳
-    socket.on('game_ping', (data) => {
-        socket.emit('game_pong')
+    socket.on("game_ping", (data) => {
+        socket.emit("game_pong")
     })
 
     //错误
-    socket.on('error', (err) => {
+    socket.on("error", (err) => {
         logger.error("scoket on error =======>", err)
     })
 
