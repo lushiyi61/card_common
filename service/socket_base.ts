@@ -2,9 +2,15 @@ import log4js from "../utils/log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
+import crypto = require("crypto");
+import { guid } from "../utils/uuid";
 import { gen_key, secret, rc4encryption } from "../utils/dhrc4";
-import crypto = require("crypto")
-import { } from "../manager/user_mgr";
+import { get_user_base_info_async } from "../manager/database_mgr";
+import { bind_socket } from "../manager/user_mgr";
+import { User_base_info } from "../interface/user_info";
+
+
+
 const b64_reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/
 const white_cmd_list = ["challenge", "auth"];
 
@@ -33,7 +39,7 @@ function handler(socket: SocketIO.Socket) {
     });
 
     //认证
-    socket.on("auth", async (data) => {
+    socket.on("auth", async data => {
         const rd_text = data.rd_text;
         const token = data.token;
 
@@ -45,25 +51,29 @@ function handler(socket: SocketIO.Socket) {
         }
 
         // 验证token，取玩家基本信息
-        // const user_info = await database_mgr_base.get_user_account_async(token);
-        // const user_id = await user_mgr_base.load_user_info_async(account);
-        // if (!user_id) {
-        //     socket.disconnect(true);
-        //     return;
-        // }
+        const user_base_info: User_base_info = await get_user_base_info_async(token);
+        if (!user_base_info) {
+            socket.disconnect(true);
+            return;
+        }
 
         //标记socket已经认证
-        // user_mgr_base.bind_socket(user_id, socket);
+        bind_socket(user_base_info.user_id, socket);
         socket.emit("auth_finish");
     });
 
     //心跳
-    socket.on("game_ping", (data) => {
-        socket.emit("game_pong")
+    socket.on("game_ping", async data => {
+        // data.token;
+        // const user_base_info: User_base_info = await get_user_base_info_async(data.token);
+        // if (!user_base_info) {
+
+        // }
+        socket.emit("game_pong");
     })
 
     //错误
-    socket.on("error", (err) => {
+    socket.on("error", err => {
         logger.error("scoket on error =======>", err)
     })
 
