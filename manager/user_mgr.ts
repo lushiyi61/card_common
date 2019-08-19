@@ -18,7 +18,7 @@ function free_user(user_id) {
  * 绑定玩家和socket关系
  */
 function bind_socket(user_id: number, socket: SocketIO.Socket) {
-    const old_socket: SocketIO.Socket = user_map_socket[user_id]
+    const old_socket: SocketIO.Socket = user_map_socket[user_id];
     if (old_socket) {
         if (old_socket.id != socket.id) {
             user_map_socket[user_id].disconnect(true);
@@ -31,7 +31,6 @@ function bind_socket(user_id: number, socket: SocketIO.Socket) {
     socket["user_id"] = user_id;
     socket["authed"] = true;
 }
-
 
 function free_socket(user_id) {
     if (user_map_socket[user_id]) {
