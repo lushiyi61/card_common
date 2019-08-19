@@ -20,7 +20,7 @@ function add_pool(redis_setting, redis_pool_setting) {
  * @param {*} key 
  * @param {*} default_value 
  */
-function get_value_async(key, default_value) {
+function get_value_async(key: string, default_value: string = null): Promise<string> | Promise<null> {
     return new Promise((resolve, reject) => {
         redis_pool.acquire((err, client) => {
             if (err) {
