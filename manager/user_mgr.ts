@@ -88,4 +88,5 @@ export {
     get_user_amount,
     bind_socket,
     bind_table,
+    send_user_msg,
 }
