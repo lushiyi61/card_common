@@ -46,6 +46,7 @@ function handler(socket: SocketIO.Socket) {
         if (!rd_text || !token          // 参数校验
             // || (rd_text != socket["challenge"].rd_str) //验证rd_text
         ) {
+            logger.warn("参数校验失败");
             socket.disconnect(true);
             return;
         }
@@ -53,6 +54,7 @@ function handler(socket: SocketIO.Socket) {
         // 验证token，取玩家基本信息
         const user_base_info: User_base_info = await get_user_base_info_async(token);
         if (!user_base_info) {
+            logger.warn("拉取玩家信息失败");
             socket.disconnect(true);
             return;
         }
