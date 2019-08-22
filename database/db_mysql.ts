@@ -13,7 +13,8 @@ enum DB_AREA {
     ACCOUNT_DB,
     USER_DB,
     GAME_DB,
-    MATCH_DB
+    MATCH_DB,
+    GAME_DB_SANGUOZHAN,
 }
 
 

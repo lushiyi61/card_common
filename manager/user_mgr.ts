@@ -41,7 +41,9 @@ function free_socket(user_id) {
 }
 
 function bind_table(user_id: number, table_id: string) {
-    user_map_socket[user_id].join(table_id);
+    if (user_map_socket[user_id]) {
+        user_map_socket[user_id].join(table_id);
+    }
     user_map_table[user_id] = table_id;
 }
 
