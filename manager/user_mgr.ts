@@ -33,7 +33,10 @@ function bind_socket(user_id: number, socket: SocketIO.Socket) {
     socket["authed"] = true;
 }
 
-function free_socket(user_id) {
+function free_socket(user_id, delay: number = 0) {
+    if (delay != 0) {
+        return setTimeout(free_socket, delay, user_id);
+    }
     if (user_map_socket[user_id]) {
         user_map_socket[user_id].disconnect(true);
         delete user_map_socket[user_id];
