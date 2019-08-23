@@ -50,7 +50,7 @@ function bind_table(user_id: number, table_id: string) {
     user_map_table[user_id] = table_id;
 }
 
-function free_table(user_id: string) {
+function free_table(user_id: number) {
     if (user_map_socket[user_id]) {
         user_map_socket[user_id].leave(user_map_socket[user_id].table_id);
     }
@@ -93,5 +93,9 @@ export {
     get_user_amount,
     bind_socket,
     bind_table,
+    free_table,
+    free_socket,
+    free_user,
     send_user_msg,
+    get_user_table_id,
 }
