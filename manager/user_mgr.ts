@@ -63,7 +63,7 @@ function send_user_msg(user_id: number, event: string, msgdata?: Object) {
         logger.warn("用户socket丢失，user_id:%s", user_id);
         return;
     }
-    logger.debug("用户消息推送，USER:%s  EVENT:%s  MSG:%s", user_id, event, JSON.stringify(msgdata));
+    // logger.debug("用户消息推送，USER:%s  EVENT:%s  MSG:%s", user_id, event, JSON.stringify(msgdata));
     socket.emit(event, msgdata);
 };
 
