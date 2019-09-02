@@ -10,10 +10,15 @@ const pools = {};   // 连接池
 
 //连接池索引
 enum DB_AREA {
-    ACCOUNT_DB,
-    USER_DB,
+    ACCOUNT_DB,     // 账户，登陆数据库
+    USER_DB,        // 用户其他信息数据库
     GAME_DB,
-    MATCH_DB
+    MATCH_DB,
+    // 具体游戏数据库
+    GAME_DB_SANGUOZHAN,
+
+    // 撮合系统数据库
+    CARD_DB_QUICK,  // 快速开始
 }
 
 

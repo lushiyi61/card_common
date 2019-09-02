@@ -33,7 +33,10 @@ function bind_socket(user_id: number, socket: SocketIO.Socket) {
     socket["authed"] = true;
 }
 
-function free_socket(user_id) {
+function free_socket(user_id, delay: number = 0) {
+    if (delay != 0) {
+        return setTimeout(free_socket, delay, user_id);
+    }
     if (user_map_socket[user_id]) {
         user_map_socket[user_id].disconnect(true);
         delete user_map_socket[user_id];
@@ -41,11 +44,13 @@ function free_socket(user_id) {
 }
 
 function bind_table(user_id: number, table_id: string) {
-    user_map_socket[user_id].join(table_id);
+    if (user_map_socket[user_id]) {
+        user_map_socket[user_id].join(table_id);
+    }
     user_map_table[user_id] = table_id;
 }
 
-function free_table(user_id: string) {
+function free_table(user_id: number) {
     if (user_map_socket[user_id]) {
         user_map_socket[user_id].leave(user_map_socket[user_id].table_id);
     }
@@ -58,7 +63,7 @@ function send_user_msg(user_id: number, event: string, msgdata?: Object) {
         logger.warn("用户socket丢失，user_id:%s", user_id);
         return;
     }
-    logger.debug("用户消息推送，USER:%s  EVENT:%s  MSG:%s", user_id, event, JSON.stringify(msgdata));
+    // logger.debug("用户消息推送，USER:%s  EVENT:%s  MSG:%s", user_id, event, JSON.stringify(msgdata));
     socket.emit(event, msgdata);
 };
 
@@ -88,4 +93,9 @@ export {
     get_user_amount,
     bind_socket,
     bind_table,
+    free_table,
+    free_socket,
+    free_user,
+    send_user_msg,
+    get_user_table_id,
 }
