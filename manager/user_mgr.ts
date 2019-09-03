@@ -67,7 +67,7 @@ function send_user_msg(user_id: number, event: string, msgdata?: Object) {
     socket.emit(event, msgdata);
 };
 
-function get_user_table_id(user_id: number) {
+function get_user_table_id(user_id: number): string | null {
     return user_map_table[user_id];
 }
 
