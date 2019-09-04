@@ -7,7 +7,7 @@ import { get_user_base_info_async } from "../manager/database_mgr";
 import { bind_socket } from "../manager/user_mgr";
 import { User_base_info } from "../interface/user_info";
 import { set_value_expire_async, REDIS_KEY } from "../database/db_redis";
-import { SERVER_EVENT, AuthReq } from "../readme/socket_api";
+import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/socket_api";
 
 const white_cmd_list = [SERVER_EVENT.AUTH_REQ];
 
@@ -47,11 +47,12 @@ function handler(socket: SocketIO.Socket) {
         // 验证token，取玩家基本信息
         const user_base_info: User_base_info = await get_user_base_info_async(token);
         if (!user_base_info) {  // token 已失效
+            logger.warn("token is expired");
             return;
         }
         const new_token = guid();
         await set_value_expire_async(REDIS_KEY.TOKEN + new_token, user_base_info, 60 * 5);
-        socket.emit("get_token", { token: new_token });
+        socket.emit(CLIENT_EVENT.TOKEN_RES, { token: new_token });
     })
 
     //错误

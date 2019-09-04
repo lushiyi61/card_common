@@ -5,7 +5,7 @@ export const SERVER_EVENT = {
 }
 
 export const CLIENT_EVENT = {
-    AUTH_RES: "BASE:AUTH_RES",
+    // AUTH_RES: "BASE:AUTH_RES",
     TOKEN_RES: "BASE:GET_TOKEN_RES",
 }
 
