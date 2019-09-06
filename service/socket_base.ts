@@ -73,6 +73,12 @@ function handler(socket: SocketIO.Socket) {
             socket.disconnect(true);
             return;
         }
+        // 挂载user_id
+        if (data[1]) {
+            data[1]["user_id"] = socket["user_id"];
+        } else {
+            data[1] = { user_id: socket["user_id"] }
+        }
         return next();
     });
 }

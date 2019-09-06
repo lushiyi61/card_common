@@ -1,3 +1,10 @@
+
+
+export interface UserId {
+    user_id: number
+}
+
+
 // 前后端监听消息字段
 export const SERVER_EVENT = {
     AUTH_REQ: "BASE:AUTH_REQ",
