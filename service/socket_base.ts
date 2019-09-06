@@ -14,7 +14,7 @@ const white_cmd_list = [SERVER_EVENT.AUTH_REQ];
 /**
  * 注册消息.
  */
-function handler(socket: SocketIO.Socket) {
+function socket_handler(socket: SocketIO.Socket) {
     logger.debug(`socket connection. socket id is [${socket.client.id}]`);
     // 10 秒钟后，未验证则断开
     setTimeout(socket => {
@@ -83,4 +83,4 @@ function handler(socket: SocketIO.Socket) {
     });
 }
 
-export { handler as socket_base_handler }
+export { socket_handler as socket_handler_base }
