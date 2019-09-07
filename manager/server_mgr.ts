@@ -63,7 +63,7 @@ function get_server_info(server_type: string, server_id?: string): void | Server
     if (SERVER_MAP_MAP[server_type]) { // 服务存在
         const server_map_info = SERVER_MAP_MAP[server_type];
         if (server_id && server_map_info[server_id]) { // 获取指定服务器
-            Object.assign(server_info, server_map_info[server_id])
+            return server_map_info[server_id];
         } else {  // 负载均衡
             return get_min_load_entry(server_type);
         }
