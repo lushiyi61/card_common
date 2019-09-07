@@ -6,7 +6,8 @@ import RedisPool = require("sol-redis-pool")
 let redis_pool = null;
 const REDIS_KEY = {
     TOKEN: "token:",
-    ACCOUNT: "account:"
+    ACCOUNT: "account:",
+    USER_SERVER: "user:server:",      // 用户所在服务器
 }
 
 
