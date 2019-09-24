@@ -6,8 +6,8 @@ import { guid } from "../utils/uuid";
 import { get_user_base_info_async } from "../manager/database_mgr";
 import { bind_socket } from "../manager/user_mgr";
 import { User_base_info } from "../interface/user_info";
-import { set_value_expire_async, REDIS_KEY } from "../database/db_redis";
 import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/socket_api";
+import { set_value_expire_async, REDIS_KEY } from "../database/DbRedis";
 
 const white_cmd_list = [SERVER_EVENT.AUTH_REQ];
 
@@ -51,7 +51,7 @@ function socket_handler(socket: SocketIO.Socket) {
             return;
         }
         const new_token = guid();
-        await set_value_expire_async(REDIS_KEY.TOKEN + new_token, user_base_info, 60 * 5);
+        await set_value_expire_async(REDIS_KEY.TOKEN + new_token, JSON.stringify(user_base_info), 60 * 5);
         socket.emit(CLIENT_EVENT.TOKEN_RES, { token: new_token });
     })
 

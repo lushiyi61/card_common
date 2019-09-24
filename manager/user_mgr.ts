@@ -2,7 +2,6 @@ import log4js from "../utils/log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
-import { get_user_base_info_async } from "./database_mgr";
 const user_map_socket: Map<number, SocketIO.Socket> = new Map() // K:user_id V:socket
 const user_map_table: Map<number, string> = new Map(); //K:user_id V:table_id
 
