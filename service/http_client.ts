@@ -5,13 +5,13 @@ const logger = log4js.getLogger(basename(__filename));
 import http = require("http");
 
 export interface HttpReturn {
-    code?: number,
+    code?: string,
     msg?: string,
     data?: any,
 }
 
 function http_return(res, ret: HttpReturn) {
-    const httpReturn: HttpReturn = { code: 0, msg: "success" };
+    const httpReturn: HttpReturn = { code: "0", msg: "success" };
     Object.assign(httpReturn, ret);
     const str = JSON.stringify(httpReturn);
     // logger.debug(str);
