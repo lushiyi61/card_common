@@ -12,18 +12,32 @@ export const REDIS_KEY = {
 }
 
 
+export async function del_key_async(key: string) {
+    // RedisClient.del(key);
+    await RedisClient["delAsync"](key);
+}
 
 export async function set_value_async(key: string, value: string) {
-    // let tmp = RedisClient.set(redisKey);
-    const result = await RedisClient["setAsync"](key, value);
+    // RedisClient.set(redisKey);
+    await RedisClient["setAsync"](key, value);
 }
 
 export async function get_value_async(key: string): Promise<string> {
-    // let tmp = RedisClient.get(redisKey);
+    // RedisClient.get(redisKey);
     return await RedisClient["getAsync"](key);
 }
 
 export async function set_value_expire_async(key: string, value: string, expire: number) {
     // RedisClient.setex(key, expire, value);
     await RedisClient["setexAsync"](key, expire, value);
+}
+
+export async function hset_value_async(key: string, field: string, value: string) {
+    // RedisClient.hset(key, field, value);
+    await RedisClient["hsetAsync"](key, field, value);
+}
+
+export async function hget_value_async(key: string, field: string): Promise<string> {
+    // RedisClient.hget(key, field);
+    return await RedisClient["hgetAsync"](key, field);
 }
