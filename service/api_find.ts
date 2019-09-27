@@ -8,7 +8,7 @@ interface Server_info {
     ws_port: number,
     load: number,           // 负载
     memory: string,         // JSON 字符串
-    server_info?: string,   // 本服务的一些信息，JSON 字符串
+    server_info?: any,   // 本服务的一些信息，JSON 字符串
 }
 
 interface Server_return {
