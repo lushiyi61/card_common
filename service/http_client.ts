@@ -72,7 +72,7 @@ export function http_post(host: string, port: number, path: string, data: Object
 };
 
 
-export async function http_get_async(url: string){
+export async function http_get_async(url: string): Promise<any> {
     const opt = {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
