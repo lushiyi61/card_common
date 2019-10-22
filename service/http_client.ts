@@ -4,7 +4,7 @@ const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import http = require("http");
 import { post } from "request";
-import { make_sign } from "../utils/sign";
+import { make_sign_string, encrypt_sign_string } from "../utils/sign";
 
 export interface HttpReturn {
     code?: string,
@@ -71,20 +71,23 @@ export function http_post(host: string, port: number, path: string, data: Object
     req.end();
 };
 
-export function http_post_form_async(url: string, data: object, needSign: boolean = false) {
+
+/**
+ * 定制的接口
+ * @param url 
+ * @param data 
+ */
+export function http_post_form_async(url: string, data: object, secret: string) {
+    const time = Math.floor(Date.now() / 1000);
+    const signStr = `${make_sign_string(data)}${time}${secret}`;
+    const sign = encrypt_sign_string(signStr);
     const opt = {
         form: data,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // "Content-Type": "application/json",
-            // "Content-Length": JSON.stringify(data).length,
+            "api-game-sign": `${sign},${time}`,
         },
     };
-
-    if (needSign) {
-        opt.form["time"] = Math.floor(Date.now() / 1000);
-        make_sign(opt.form);
-    }
 
     return new Promise((resolve, reject) => {
         post(url, opt, function (error, response, body) {
