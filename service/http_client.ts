@@ -3,7 +3,7 @@ import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import http = require("http");
-import { post } from "request";
+import { post, get } from "request";
 import { make_sign_string, encrypt_sign_string } from "../utils/sign";
 
 export interface HttpReturn {
@@ -72,12 +72,27 @@ export function http_post(host: string, port: number, path: string, data: Object
 };
 
 
+export async function http_get_async(url: string){
+    const opt = {
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    };
+
+    return new Promise((resolve, reject) => {
+        get(url, opt, function (error, response, body) {
+            if (error) reject({});
+            resolve(body);
+        });
+    })
+}
+
 /**
  * 定制的接口
  * @param url 
  * @param data 
  */
-export function http_post_form_async(url: string, data: object, secret: string) {
+export async function http_post_form_async(url: string, data: object, secret: string) {
     const time = Math.floor(Date.now() / 1000);
     const signStr = `${make_sign_string(data)}${time}${secret}`;
     const sign = encrypt_sign_string(signStr);
