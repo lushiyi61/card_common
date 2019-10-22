@@ -3,6 +3,8 @@ import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import http = require("http");
+import { post } from "request";
+import { make_sign } from "../utils/sign";
 
 export interface HttpReturn {
     code?: string,
@@ -67,4 +69,27 @@ export function http_post(host: string, port: number, path: string, data: Object
     });
     req.write(JSON.stringify(data));
     req.end();
+};
+
+export function http_post_form_async(url: string, data: object, needSign: boolean = false) {
+    const opt = {
+        form: data,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // "Content-Type": "application/json",
+            // "Content-Length": JSON.stringify(data).length,
+        },
+    };
+
+    if (needSign) {
+        opt.form["time"] = Math.floor(Date.now() / 1000);
+        make_sign(opt.form);
+    }
+
+    return new Promise((resolve, reject) => {
+        post(url, opt, function (error, response, body) {
+            if (error) reject({});
+            resolve(body);
+        });
+    })
 };

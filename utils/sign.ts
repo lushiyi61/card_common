@@ -4,7 +4,7 @@
 import { md5_16 } from "./secret";
 
 //生成Sign
-function make_sign(data) {
+export function make_sign(data) {
     var sign_string = make_sign_string(data);
     var sign = encrypt_sign_string(sign_string);
     data.sign = sign;
@@ -12,7 +12,7 @@ function make_sign(data) {
 
 //验证Sign
 //added time vertify by zh
-function check_sign(data) {
+export function check_sign(data) {
     var sign = data.sign;
     if (!Number(data.time)) {
         return false;
