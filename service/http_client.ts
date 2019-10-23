@@ -94,7 +94,10 @@ export async function http_get_async(url: string): Promise<object> {
  */
 export async function http_post_form_async(url: string, data: object, secret: string): Promise<object> {
     const time = Math.floor(Date.now() / 1000);
-    const signStr = `${make_sign_string(data)}${time}${secret}`;
+    const signStr = `${make_sign_string({
+        goods_id: data["goods_id"],
+        user_id: data["user_id"]
+    })}${time}${secret}`;
     const sign = encrypt_sign_string(signStr);
     const opt = {
         form: data,
