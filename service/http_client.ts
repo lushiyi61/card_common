@@ -72,7 +72,7 @@ export function http_post(host: string, port: number, path: string, data: Object
 };
 
 
-export async function http_get_async(url: string): Promise<any> {
+export async function http_get_async(url: string): Promise<object> {
     const opt = {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -81,8 +81,8 @@ export async function http_get_async(url: string): Promise<any> {
 
     return new Promise((resolve, reject) => {
         get(url, opt, function (error, response, body) {
-            if (error) reject({});
-            resolve(body);
+            if (error) reject(null);
+            resolve(JSON.parse(body));
         });
     })
 }
@@ -92,7 +92,7 @@ export async function http_get_async(url: string): Promise<any> {
  * @param url 
  * @param data 
  */
-export async function http_post_form_async(url: string, data: object, secret: string) {
+export async function http_post_form_async(url: string, data: object, secret: string): Promise<object> {
     const time = Math.floor(Date.now() / 1000);
     const signStr = `${make_sign_string(data)}${time}${secret}`;
     const sign = encrypt_sign_string(signStr);
@@ -106,8 +106,8 @@ export async function http_post_form_async(url: string, data: object, secret: st
 
     return new Promise((resolve, reject) => {
         post(url, opt, function (error, response, body) {
-            if (error) reject({});
-            resolve(body);
+            if (error) reject(null);
+            resolve(JSON.parse(body));
         });
     })
 };
