@@ -254,4 +254,5 @@ function md5_16(content) {
 
 export {
     md5_16,
+    md5_32
 }

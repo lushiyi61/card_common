@@ -1,7 +1,7 @@
 /**
  * 用于通讯签名
  */
-import { md5_16 } from "./secret";
+import { md5_32 } from "./secret";
 
 // //生成Sign
 // export function make_sign(data) {
@@ -32,7 +32,7 @@ export function encrypt_sign_string(sign_string) {
     for (var i = 0; i < length; ++i) {
         code_string += String.fromCharCode(sign_string.charCodeAt(i) ^ (i % 256));
     }
-    return md5_16(code_string);
+    return md5_32(code_string);
 }
 
 //生成签名字符串
