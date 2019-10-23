@@ -27,12 +27,12 @@ import { md5_32 } from "./secret";
 
 //加密
 export function encrypt_sign_string(sign_string) {
-    var length = sign_string.length;
-    var code_string = "";
-    for (var i = 0; i < length; ++i) {
-        code_string += String.fromCharCode(sign_string.charCodeAt(i) ^ (i % 256));
-    }
-    return md5_32(code_string);
+    // var length = sign_string.length;
+    // var code_string = "";
+    // for (var i = 0; i < length; ++i) {
+    //     code_string += String.fromCharCode(sign_string.charCodeAt(i) ^ (i % 256));
+    // }
+    return md5_32(sign_string);
 }
 
 //生成签名字符串
