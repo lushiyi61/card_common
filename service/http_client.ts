@@ -104,6 +104,7 @@ export async function http_post_form_async(url: string, data: object, secret: st
         },
     };
 
+    console.log(opt);
     return new Promise((resolve, reject) => {
         post(url, opt, function (error, response, body) {
             if (error) reject(null);
