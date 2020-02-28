@@ -6,19 +6,6 @@ import http = require("http");
 import { post, get } from "request";
 import { make_sign_string, encrypt_sign_string } from "../utils/sign";
 
-export interface HttpReturn {
-    code?: string,
-    msg?: string,
-    data?: any,
-}
-
-export function http_return(res, ret: HttpReturn) {
-    const httpReturn: HttpReturn = { code: "0", msg: "success" };
-    Object.assign(httpReturn, ret);
-    const str = JSON.stringify(httpReturn);
-    // logger.debug(str);
-    res.send(str);
-}
 
 export function http_get(host: string, port: number, path: string, data: Object) {
     const opt = {
