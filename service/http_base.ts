@@ -7,7 +7,7 @@ import bodyParser = require("body-parser");
 export const app = Express();
 app.use(bodyParser.json());
 
-export async function http_serv_start_async(http_ip: string, http_port: number) {
+export function http_serv_start(http_ip: string, http_port: number) {
     logger.info("Http Service Running At:: %s:%s", http_ip, http_port);
     app.listen(http_port, http_ip, () => {
         app._router.stack.map(item => {
