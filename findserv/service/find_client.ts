@@ -13,11 +13,14 @@ export async function server_report_async(server_info: ServerReq, find_ip: strin
     await create_async(find_ip, find_port, find_tick_time);
 }
 
+export async function server_update_load(load: number) {
+    SERVER_INFO.load = load;
+}
+
 async function create_async(find_ip: string, find_port: number, find_tick_time: number) {
     const now = Date.now();
     if (now > SERVER_INFO.tick_time + find_tick_time) {
         SERVER_INFO.tick_time = now;
-        // SERVER_INFO.load = get_user_amount();
         const mem = process.memoryUsage();
         SERVER_INFO.memory = JSON.stringify({
             heapTotal: mem_format(mem.heapTotal),
@@ -25,7 +28,11 @@ async function create_async(find_ip: string, find_port: number, find_tick_time: 
             rss: mem_format(mem.rss)
         })
         // logger.debug("load:%s memory:%s", SERVER_INFO.load, SERVER_INFO.memory);
-        await http_post_async(find_ip, find_port, SERVER_REQUEST.CREATE, SERVER_INFO);
+        try {
+            await http_post_async(find_ip, find_port, SERVER_REQUEST.CREATE, SERVER_INFO);
+        } catch (error) {
+            logger.warn("cann't connect to find server. ip:[%s] port:[%s] ", find_ip, find_port);
+        }
     }
     setTimeout(create_async, 2000, find_ip, find_port, find_tick_time);
 }

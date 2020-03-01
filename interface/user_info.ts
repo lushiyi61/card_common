@@ -1,11 +1,12 @@
 interface User_base_info {
     account: string;
     user_id: number;
-
 }
 
 // table中需要的信息，以后再补充
 interface User_info {
+    name: string;
+    ipaddr: string;
     user_id: number;
     headimg: string;
     sex: number;

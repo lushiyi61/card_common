@@ -2,27 +2,14 @@ import log4js from "../utils/log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
-import { User_base_info, User_info } from "../interface/user_info";
+import { User_info } from "../interface/user_info";
 import { get_value_async, REDIS_KEY } from "../database/DbRedis";
 
 
-async function get_user_base_info_async(token: string): Promise<User_base_info> {
-    const user_base_info = await get_value_async(REDIS_KEY.TOKEN + token);
-    if (user_base_info) {
-        return JSON.parse(user_base_info);
+export async function get_user_info_async(token: string): Promise<User_info> {
+    const user_info = await get_value_async(REDIS_KEY.TOKEN + token);
+    if (user_info) {
+        return JSON.parse(user_info);
     }
     return null;
-}
-
-async function get_user_info_async(user_id: number): Promise<User_info> {
-
-    return null;
-}
-
-async function set_user_info_async() {
-
-}
-
-export {
-    get_user_base_info_async,
 }
