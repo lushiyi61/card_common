@@ -13,7 +13,7 @@ import { http_post_async } from "../service/http_json";
  */
 const SERVER_MAP_INFO: Map<string, ServerRes> = new Map();
 
-async function server_manager_start_async(server_types: string[]) {
+export async function server_manager_start_async(server_types: string[]) {
     const find_server = config.find_server;
     await Promise.all(
         server_types.map(async server_type => {
