@@ -36,6 +36,6 @@ export async function server_manager_start_async(server_types: string[]) {
 }
 
 
-function get_server_by_type(server_type: string): ServerRes {
+export function get_server_by_type(server_type: string): ServerRes {
     return SERVER_MAP_INFO.get(server_type);
 }
