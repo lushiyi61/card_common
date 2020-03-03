@@ -32,7 +32,7 @@ export async function server_manager_start_async(server_types: string[]) {
             }
         })
     )
-    setTimeout(server_manager_start_async, config.find_server.tick_time);
+    setTimeout(server_manager_start_async, config.find_server.tick_time, server_types);
 }
 
 
