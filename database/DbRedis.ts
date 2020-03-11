@@ -9,6 +9,7 @@ export const REDIS_KEY = {
     TOKEN: "token:",
     ACCOUNT: "account:",
     USER_SERVER: "user:server:",      // 用户所在服务器
+    ROOM_ID: "room:id",                 // 房间ID
 }
 
 
@@ -40,4 +41,9 @@ export async function hset_value_async(key: string, field: string, value: string
 export async function hget_value_async(key: string, field: string): Promise<string> {
     // RedisClient.hget(key, field);
     return await RedisClient["hgetAsync"](key, field);
+}
+
+export async function exists_async(key: string): Promise<boolean> {
+    // RedisClient.exists()
+    return await RedisClient["existsAsync"](key);
 }
