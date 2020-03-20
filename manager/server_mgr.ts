@@ -21,14 +21,18 @@ export async function server_manager_start_async(server_types: string[]) {
                 server_type
             }
 
-            const result: HttpReturn = await http_post_async(
-                find_server.server_ip,
-                find_server.server_port,
-                SERVER_REQUEST.FIND,
-                findreq
-            )
-            if (result.data) {
-                SERVER_MAP_INFO.set(server_type, result.data);
+            try {
+                const result: HttpReturn = await http_post_async(
+                    find_server.server_ip,
+                    find_server.server_port,
+                    SERVER_REQUEST.FIND,
+                    findreq
+                )
+                if (result.data) {
+                    SERVER_MAP_INFO.set(server_type, result.data);
+                }
+            } catch (error) {
+                logger.warn("find server not acceptable!");
             }
         })
     )
