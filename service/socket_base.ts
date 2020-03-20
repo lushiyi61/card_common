@@ -2,6 +2,7 @@ import log4js from "../utils/log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
+import _ = require("lodash");
 import { guid } from "../utils/uuid";
 import { get_user_info_async } from "../manager/database_mgr";
 import { bind_socket } from "../manager/user_mgr";
@@ -9,7 +10,7 @@ import { User_info } from "../interface/user_info";
 import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/socket_api";
 import { set_value_expire_async, REDIS_KEY } from "../database/DbRedis";
 
-const white_cmd_list = [SERVER_EVENT.AUTH_REQ];
+const white_cmd_list = [SERVER_EVENT.AUTH_REQ, SERVER_EVENT.GUEST_REQ];
 
 /**
  * 注册消息.
@@ -20,6 +21,14 @@ function socket_handler(socket: SocketIO.Socket) {
     setTimeout(socket => {
         if (!socket["authed"]) socket.disconnect(true);
     }, 1000 * 10, socket);
+
+    // 增加游客认证
+    socket.on(SERVER_EVENT.GUEST_REQ, async data => {
+        const user_id = _.random(1000000, 9999999);
+
+        //标记socket已经认证
+        bind_socket(user_id, socket);
+    });
 
     //认证
     socket.on(SERVER_EVENT.AUTH_REQ, async data => {

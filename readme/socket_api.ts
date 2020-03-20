@@ -7,6 +7,7 @@ export interface UserId {
 
 // 前后端监听消息字段
 export const SERVER_EVENT = {
+    GUEST_REQ: "BASE:GUEST_REQ",
     AUTH_REQ: "BASE:AUTH_REQ",
     TOKEN_REQ: "BASE:GET_TOKEN_REQ",
 }
