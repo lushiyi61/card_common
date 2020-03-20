@@ -14,6 +14,7 @@ export const SERVER_EVENT = {
 
 export const CLIENT_EVENT = {
     // AUTH_RES: "BASE:AUTH_RES",
+    GUEST_RES: "BASE:GUEST_RES",
     TOKEN_RES: "BASE:GET_TOKEN_RES",
 }
 
@@ -25,3 +26,6 @@ export interface AuthReq {
 
 //////////////////返回//////////////////////////
 // export interface Aut
+export interface GuestRes {
+    user_id: number;
+}

@@ -25,9 +25,9 @@ function socket_handler(socket: SocketIO.Socket) {
     // 增加游客认证
     socket.on(SERVER_EVENT.GUEST_REQ, async data => {
         const user_id = _.random(1000000, 9999999);
-
         //标记socket已经认证
         bind_socket(user_id, socket);
+        socket.emit(CLIENT_EVENT.GUEST_RES, { user_id });
     });
 
     //认证
