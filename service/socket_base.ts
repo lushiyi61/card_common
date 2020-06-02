@@ -6,9 +6,9 @@ import _ = require("lodash");
 import { guid } from "../utils/uuid";
 import { get_user_info_async } from "../manager/database_mgr";
 import { bind_socket } from "../manager/user_mgr";
-import { User_info } from "../interface/user_info";
+import { User_info } from "../interface/IUserInfo";
 import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/socket_api";
-import { set_value_expire_async, REDIS_KEY } from "../database/DbRedis";
+import { setValueExpire, REDIS_KEY } from "../database/DbRedis";
 
 const white_cmd_list = [SERVER_EVENT.AUTH_REQ, SERVER_EVENT.GUEST_REQ];
 
@@ -60,7 +60,7 @@ function socket_handler(socket: SocketIO.Socket) {
             return;
         }
         const new_token = guid();
-        await set_value_expire_async(REDIS_KEY.TOKEN + new_token, JSON.stringify(user_info), 60 * 5);
+        await setValueExpire(REDIS_KEY.TOKEN + new_token, JSON.stringify(user_info), 60 * 5);
         socket.emit(CLIENT_EVENT.TOKEN_RES, { token: new_token });
     })
 
