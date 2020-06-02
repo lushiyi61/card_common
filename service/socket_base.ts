@@ -5,9 +5,9 @@ const logger = log4js.getLogger(basename(__filename));
 import _ = require("lodash");
 import { guid } from "../utils/uuid";
 import { get_user_info_async } from "../manager/database_mgr";
-import { bind_socket } from "../manager/user_mgr";
+import { bindSocket } from "../manager/userMgr";
 import { User_info } from "../interface/IUserInfo";
-import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/socket_api";
+import { SERVER_EVENT, AuthReq, CLIENT_EVENT } from "../readme/apiSocketBase";
 import { setValueExpire, REDIS_KEY } from "../database/DbRedis";
 
 const white_cmd_list = [SERVER_EVENT.AUTH_REQ, SERVER_EVENT.GUEST_REQ];
@@ -26,7 +26,7 @@ function socket_handler(socket: SocketIO.Socket) {
     socket.on(SERVER_EVENT.GUEST_REQ, async data => {
         const user_id = _.random(1000000, 9999999);
         //标记socket已经认证
-        bind_socket(user_id, socket);
+        bindSocket(user_id, socket);
         socket.emit(CLIENT_EVENT.GUEST_RES, { user_id });
     });
 
@@ -47,7 +47,7 @@ function socket_handler(socket: SocketIO.Socket) {
         }
 
         //标记socket已经认证
-        bind_socket(user_info.user_id, socket);
+        bindSocket(user_info.user_id, socket);
     });
 
     // 更新token

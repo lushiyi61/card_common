@@ -3,7 +3,7 @@ import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import net = require("net");
-import { NetMessage } from "../readme/net_api";
+import { NetMessage } from "../readme/apiNetBase";
 
 
 /**

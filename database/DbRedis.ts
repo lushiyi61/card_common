@@ -22,7 +22,7 @@ export async function setValue(key: string, value: string) {
   await RedisClient["setAsync"](key, value);
 }
 
-export async function getValue(key: string): Promise<string> {
+export async function getValue(key: string): Promise<string | null> {
   // RedisClient.get(redisKey);
   return await RedisClient["getAsync"](key);
 }
@@ -41,7 +41,10 @@ export async function hSetValue(key: string, field: string, value: string) {
   await RedisClient["hsetAsync"](key, field, value);
 }
 
-export async function hGetValue(key: string, field: string): Promise<string> {
+export async function hGetValue(
+  key: string,
+  field: string
+): Promise<string | null> {
   // RedisClient.hget(key, field);
   return await RedisClient["hgetAsync"](key, field);
 }
